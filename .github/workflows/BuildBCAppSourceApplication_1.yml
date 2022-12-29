@@ -83,47 +83,47 @@ jobs:
 
     - name: 'Install pre-requisites (BCContainerHelper)'
       run: |
-        ${{ github.workspace }}\Capvision.GithubWorkflows\Powershell\InstallPSModule@1.ps1 `
+        ${{ github.workspace }}\Capvision.GithubWorkflows\actions\InstallPSModule@1.ps1 `
           -ModuleName "BCContainerHelper"
 
     - name: 'Set Business Central Application Build Version'
       run: |
-        ${{ github.workspace }}\Capvision.GithubWorkflows\Powershell\SetBCApplicationVersion@1.ps1 `
+        ${{ github.workspace }}\Capvision.GithubWorkflows\actions\SetBCApplicationVersion@1.ps1 `
           -appProjectFolder "${{ github.workspace }}\s\${{ inputs.appProjectFolder }}" `
           -minorVersion "$(Get-Date -Format yyyyMM)" `
           -buildVersion "${{ github.run_number }}"
 
     - name: 'Add Preprocessor Symbols'
       run: |
-        ${{ github.workspace }}\Capvision.GithubWorkflows\Powershell\AddBCPreprocessorSymbols@1.ps1 `
+        ${{ github.workspace }}\Capvision.GithubWorkflows\actions\AddBCPreprocessorSymbols@1.ps1 `
           -appProjectFolder "${{ github.workspace }}\s\${{ inputs.appProjectFolder }}" `
           -preprocessorSymbols "${{ inputs.addPreprocessorSymbols }}"
       if: ${{ inputs.addPreprocessorSymbols != '' }}
 
     - name: 'Remove Preprocessor Symbols'
       run: |
-        ${{ github.workspace }}\Capvision.GithubWorkflows\Powershell\RemoveBCPreprocessorSymbols@1.ps1 `
+        ${{ github.workspace }}\Capvision.GithubWorkflows\actions\RemoveBCPreprocessorSymbols@1.ps1 `
           -appProjectFolder "${{ github.workspace }}\s\${{ inputs.appProjectFolder }}" `
           -preprocessorSymbols "${{ inputs.removePreprocessorSymbols }}"
       if: ${{ inputs.removePreprocessorSymbols != '' }}
         
     - name: 'Get Application Name from app.json'
       run: |
-        ${{ github.workspace }}\Capvision.GithubWorkflows\Powershell\GetBCApplicationInfo@1.ps1 `
+        ${{ github.workspace }}\Capvision.GithubWorkflows\actions\GetBCApplicationInfo@1.ps1 `
           -appProjectFolder "${{ github.workspace }}\s\${{ inputs.appProjectFolder }}" `
           -propertyName "name" `
           -vsoOutputVariableName "MY_APPNAME"    
 
     - name: 'Get Application Publisher from app.json'
       run: |
-        ${{ github.workspace }}\Capvision.GithubWorkflows\Powershell\GetBCApplicationInfo@1.ps1 `
+        ${{ github.workspace }}\Capvision.GithubWorkflows\actions\GetBCApplicationInfo@1.ps1 `
           -appProjectFolder "${{ github.workspace }}\s\${{ inputs.appProjectFolder }}" `
           -propertyName "publisher" `
           -vsoOutputVariableName "MY_APPPUBLISHER"    
 
     - name: 'Get Application Version from app.json'
       run: |
-        ${{ github.workspace }}\Capvision.GithubWorkflows\Powershell\GetBCApplicationInfo@1.ps1 `
+        ${{ github.workspace }}\Capvision.GithubWorkflows\actions\GetBCApplicationInfo@1.ps1 `
           -appProjectFolder "${{ github.workspace }}\s\${{ inputs.appProjectFolder }}" `
           -propertyName "version" `
           -vsoOutputVariableName "MY_APPVERSION"    
@@ -163,41 +163,41 @@ jobs:
         
     - name: 'Create .nuspec and packages.config files'
       run: |
-        ${{ github.workspace }}\Capvision.GithubWorkflows\Powershell\CreateNuspecFromBCApplication@1.ps1 `
+        ${{ github.workspace }}\Capvision.GithubWorkflows\actions\CreateNuspecFromBCApplication@1.ps1 `
           -appProjectFolder "${{ github.workspace }}\s\${{ inputs.appProjectFolder }}" `
           -nuspecOutputFolder "${{ github.workspace }}\s\${{ inputs.appProjectFolder }}"
       
           
     - name: 'Download AL packages (dependencies) from Nuget'
       run: |
-        ${{ github.workspace }}\Capvision.GithubWorkflows\Powershell\DownloadALPackagesFromNuget@1.ps1 `
+        ${{ github.workspace }}\Capvision.GithubWorkflows\actions\DownloadALPackagesFromNuget@1.ps1 `
           -appProjectFolder "${{ github.workspace }}\s\${{ inputs.appProjectFolder }}" 
       continue-on-error: true
 
     - name: 'Download Business Central Artifacts'
       run: |
-        ${{ github.workspace }}\Capvision.GithubWorkflows\Powershell\DownloadBCArtifacts@1.ps1 `
+        ${{ github.workspace }}\Capvision.GithubWorkflows\actions\DownloadBCArtifacts@1.ps1 `
           -artifact "${{ inputs.artifact }}" `
           -sasToken "${{ secrets.sasToken }}" `
           -cachePath "${{ inputs.artifactCachePath }}"
 
     - name: 'Copy *.app files from Business Central Platform Artifacts'
       run: |
-        ${{ github.workspace }}\Capvision.GithubWorkflows\Powershell\CopyFiles@1.ps1 `
+        ${{ github.workspace }}\Capvision.GithubWorkflows\actions\CopyFiles@1.ps1 `
           -sourcePath "$(al.platformartifactsfolder)" `
           -targetPath "${{ inputs.appProjectFolder }}\.alpackages" `
           -filter "System.app"
 
     - name: 'Copy *.app files from Business Central Artifacts'
       run: |
-        ${{ github.workspace }}\Capvision.GithubWorkflows\Powershell\CopyFiles@1.ps1 `
+        ${{ github.workspace }}\Capvision.GithubWorkflows\actions\CopyFiles@1.ps1 `
           -sourcePath "$(al.artifactsfolder)" `
           -targetPath "${{ inputs.appProjectFolder }}\.alpackages" `
           -filter "*.app"    
 
     - name: 'Download current release for App Source Cop'
       run: |
-        ${{ github.workspace }}\Capvision.GithubWorkflows\Powershell\DownloadCurrentReleaseALPackageForAppSourceCop@1.ps1 `
+        ${{ github.workspace }}\Capvision.GithubWorkflows\actions\DownloadCurrentReleaseALPackageForAppSourceCop@1.ps1 `
           -appName "${{ env.MY_APPNAME }}" `
           -appPublisher "${{ env.MY_APPPUBLISHER }}" `
           -appProjectFolder "${{ github.workspace }}\s\${{ inputs.appProjectFolder }}"
@@ -205,7 +205,7 @@ jobs:
 
     - name: 'Compile Business Central Application'
       run: |
-        ${{ github.workspace }}\Capvision.GithubWorkflows\Powershell\CompileBCApplication@1.ps1 `
+        ${{ github.workspace }}\Capvision.GithubWorkflows\actions\CompileBCApplication@1.ps1 `
           -appProjectFolder "${{ github.workspace }}\s\${{ inputs.appProjectFolder }}" `
           -alcFolder "$(al.alcfolder)" `
           -codeAnalyzers "CodeCop,UICop,AppSourceCop" `
@@ -213,18 +213,18 @@ jobs:
 
     - name: 'Check all trans-units exist in translation files'
       run: |
-        ${{ github.workspace }}\Capvision.GithubWorkflows\Powershell\CheckAllTransUnitsExistInTranslationFiles@1.ps1 `
+        ${{ github.workspace }}\Capvision.GithubWorkflows\actions\CheckAllTransUnitsExistInTranslationFiles@1.ps1 `
           -appProjectFolder "${{ github.workspace }}\s\${{ inputs.appProjectFolder }}"
 
     - name: 'Install SIP Provider'
       run: |
-        ${{ github.workspace }}\Capvision.GithubWorkflows\Powershell\InstallBcSipProvider@1.ps1 `
+        ${{ github.workspace }}\Capvision.GithubWorkflows\actions\InstallBcSipProvider@1.ps1 `
           -platformArtifact "$(al.platformartifactsfolder)"
       if: ${{ inputs.publishArtifact && inputs.publishArtifactName != '' }}
 
     - name: 'Sign application'
       run: |
-        ${{ github.workspace }}\Capvision.GithubWorkflows\Powershell\SignBCApp@1.ps1 `
+        ${{ github.workspace }}\Capvision.GithubWorkflows\actions\SignBCApp@1.ps1 `
           -appFile "${{ env.MY_APPFILE }}" `
           -pfxFile: "${{ secrets.pfxFile }}" `
           -pfxPassword: "${{ secrets.pfxPassword }}"
@@ -239,7 +239,7 @@ jobs:
 
     - name: 'Create archive with dependencies'
       run: |
-        ${{ github.workspace }}\Capvision.GithubWorkflows\Powershell\MakeZipWithDependencies@1.ps1 `
+        ${{ github.workspace }}\Capvision.GithubWorkflows\actions\MakeZipWithDependencies@1.ps1 `
           -publisherName "$(my.apppublisher)" `
           -appName "$(my.appname)" `
           -projectFolder "${{ github.workspace }}\s\${{ inputs.appProjectFolder }}"
