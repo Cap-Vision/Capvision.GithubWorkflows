@@ -3,9 +3,9 @@ Param([parameter(Mandatory=$true,
    [string]$artifact = "bcartifacts/sandbox//fr/Latest",
    [string]$cachePath = "C:\.artifacts",
    [string]$sasToken = $null,
-   [string]$vsoArtifactsFolderVariableName = "al.artifactsfolder",
-   [string]$vsoPlatformArtifactsFolderVariableName = "al.platformartifactsfolder",
-   [string]$vsoALCompilerFolderVariableName = "al.alcfolder")
+   [string]$vsoArtifactsFolderVariableName = "AL_ARTIFACTSFOLDER",
+   [string]$vsoPlatformArtifactsFolderVariableName = "AL_PLATFORMARTIFACTSFOLDER",
+   [string]$vsoALCompilerFolderVariableName = "AL_ALCFOLDER")
 
 $segments = "$artifact////".Split('/')
 if ((![string]::IsNullOrEmpty($sasToken)) -And (($segments[0] -eq "bcinsider") -or ($segments[0] -eq ""))) {

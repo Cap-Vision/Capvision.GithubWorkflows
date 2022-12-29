@@ -194,7 +194,7 @@ jobs:
     - name: 'Copy *.app files from Business Central Artifacts'
       run: |
         ${{ github.workspace }}\Capvision.GithubWorkflows\actions\CopyFiles@1.ps1 `
-          -sourcePath "$(al.artifactsfolder)" `
+          -sourcePath "${{ env.AL_ARTIFACTSFOLDER }}" `
           -targetPath "${{ inputs.appProjectFolder }}\.alpackages" `
           -filter "*.app"    
 
@@ -210,7 +210,7 @@ jobs:
       run: |
         ${{ github.workspace }}\Capvision.GithubWorkflows\actions\CompileBCApplication@1.ps1 `
           -appProjectFolder "${{ github.workspace }}\s\${{ inputs.appProjectFolder }}" `
-          -alcFolder "$(al.alcfolder)" `
+          -alcFolder "${{ env.AL_ALCFOLDER }}" `
           -codeAnalyzers "CodeCop,UICop,AppSourceCop" `
           -vsoAppFileOutputVariableName "${{ env.MY_APPFILE }}"
 
@@ -222,7 +222,7 @@ jobs:
     - name: 'Install SIP Provider'
       run: |
         ${{ github.workspace }}\Capvision.GithubWorkflows\actions\InstallBcSipProvider@1.ps1 `
-          -platformArtifact "$(al.platformartifactsfolder)"
+          -platformArtifact "${{ env.AL_PLATFORMARTIFACTSFOLDER }}"
       if: ${{ inputs.publishArtifact && inputs.publishArtifactName != '' }}
 
     - name: 'Sign application'
