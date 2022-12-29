@@ -187,7 +187,7 @@ jobs:
     - name: 'Copy *.app files from Business Central Platform Artifacts'
       run: |
         ${{ github.workspace }}\Capvision.GithubWorkflows\actions\CopyFiles@1.ps1 `
-          -sourcePath "$(al.platformartifactsfolder)" `
+          -sourcePath "${{ env.AL_PLATFORMARTIFACTSFOLDER }}" `
           -targetPath "${{ inputs.appProjectFolder }}\.alpackages" `
           -filter "System.app"
 
