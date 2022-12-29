@@ -217,7 +217,7 @@ jobs:
       run: |
         ${{ github.workspace }}\Capvision.GithubWorkflows\Powershell\InstallBcSipProvider@1.ps1 `
           -platformArtifact "$(al.platformartifactsfolder)"
-      if: ${{ inputs.publishArtifact && inputs.publishArtifactName != '' && secrets.pfxFile != '' }}
+      if: ${{ inputs.publishArtifact && inputs.publishArtifactName != '' }}
 
     - name: 'Sign application'
       run: |
@@ -225,7 +225,7 @@ jobs:
           -appFile "${{ env.MY_APPFILE }}" `
           -pfxFile: "${{ secrets.pfxFile }}" `
           -pfxPassword: "${{ secrets.pfxPassword }}"
-      if: ${{ inputs.publishArtifact && inputs.publishArtifactName != '' && secrets.pfxFile != '' }}    
+      if: ${{ inputs.publishArtifact && inputs.publishArtifactName != '' }}    
 
     - name: 'Publish App artifact'
       uses: actions/upload-artifact@v3
