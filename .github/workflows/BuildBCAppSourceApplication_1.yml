@@ -56,6 +56,9 @@ on:
 jobs:
   build:
     runs-on: windows-latest
+    defaults:
+      run:
+        shell: PowerShell
     steps:
 
     - name: 'Checkout repository'

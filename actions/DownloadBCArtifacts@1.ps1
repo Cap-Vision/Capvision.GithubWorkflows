@@ -7,8 +7,6 @@ Param([parameter(Mandatory=$true,
    [string]$vsoPlatformArtifactsFolderVariableName = "al.platformartifactsfolder",
    [string]$vsoALCompilerFolderVariableName = "al.alcfolder")
 
-Import-Module BcContainerHelper
-
 $segments = "$artifact////".Split('/')
 if ((![string]::IsNullOrEmpty($sasToken)) -And (($segments[0] -eq "bcinsider") -or ($segments[0] -eq ""))) {
   Write-Host "::debug::Looking for $segments with sasToken enabled"
