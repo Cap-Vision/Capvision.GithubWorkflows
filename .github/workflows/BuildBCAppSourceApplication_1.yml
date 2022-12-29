@@ -69,10 +69,10 @@ jobs:
         repository: Cap-Vision/Capvision.GithubWorkflows
         path: 'Capvision.GithubWorkflows'
 
-  # - task: DownloadPipelineArtifact@2
-  #   inputs:
-  #     path: '${{ inputs.appProjectFolder }}/.alpackages'
-  #   name: 'Download current build pipeline artifacts'
+    - name: 'Download current build pipeline artifacts'
+      uses: actions/download-artifact@v3
+      with:
+        path: 's/${{ inputs.appProjectFolder }}/.alpackages'   
 
     - name: 'Copy current build pipeline artifacts to Application/.alpackages'
       run: |
