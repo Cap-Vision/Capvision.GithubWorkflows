@@ -60,7 +60,8 @@ jobs:
 
     - name: 'Checkout repository'
       uses: actions/checkout@v3
-      path: 's'
+      with:
+        path: 's'
 
     - name: 'Checkout Github workflows'
       uses: actions/checkout@v3
