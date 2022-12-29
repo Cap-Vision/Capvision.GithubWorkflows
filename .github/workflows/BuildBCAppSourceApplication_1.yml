@@ -212,7 +212,7 @@ jobs:
           -appProjectFolder "${{ github.workspace }}\s\${{ inputs.appProjectFolder }}" `
           -alcFolder "${{ env.AL_ALCFOLDER }}" `
           -codeAnalyzers "CodeCop,UICop,AppSourceCop" `
-          -vsoAppFileOutputVariableName "${{ env.MY_APPFILE }}"
+          -vsoAppFileOutputVariableName "MY_APPFILE"
 
     - name: 'Check all trans-units exist in translation files'
       run: |

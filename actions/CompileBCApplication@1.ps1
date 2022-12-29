@@ -50,4 +50,3 @@ Write-Host "##[command]alc.exe $([string]::Join(' ', $alcParameters))"
 
 $appFile = (Get-Item "$appProjectFolder/*.app").FullName
 "$vsoAppFileOutputVariableName=$appFile" >> $env:GITHUB_ENV
-
