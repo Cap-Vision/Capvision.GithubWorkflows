@@ -77,7 +77,9 @@ jobs:
     - name: 'Copy current build pipeline artifacts to Application/.alpackages'
       run: |
           $alpackagesPath = "./s/${{ inputs.appProjectFolder }}/.alpackages"
-          Get-ChildItem -Path "$alpackagesPath\*" -Include *.app -Recurse | Copy-Item -Destination "$alpackagesPath"
+          if (Test-Path -Path "$alpackagesPath" -PathType Container) {
+            Get-ChildItem -Path "$alpackagesPath\*" -Include *.app -Recurse | Copy-Item -Destination "$alpackagesPath"
+          }
 
     - name: 'Install pre-requisites (BCContainerHelper)'
       run: |
