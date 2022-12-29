@@ -188,14 +188,14 @@ jobs:
       run: |
         ${{ github.workspace }}\Capvision.GithubWorkflows\actions\CopyFiles@1.ps1 `
           -sourcePath "${{ env.AL_PLATFORMARTIFACTSFOLDER }}" `
-          -targetPath "${{ inputs.appProjectFolder }}\.alpackages" `
+          -targetPath "s\${{ inputs.appProjectFolder }}\.alpackages" `
           -filter "System.app"
 
     - name: 'Copy *.app files from Business Central Artifacts'
       run: |
         ${{ github.workspace }}\Capvision.GithubWorkflows\actions\CopyFiles@1.ps1 `
           -sourcePath "${{ env.AL_ARTIFACTSFOLDER }}" `
-          -targetPath "${{ inputs.appProjectFolder }}\.alpackages" `
+          -targetPath "s\${{ inputs.appProjectFolder }}\.alpackages" `
           -filter "*.app"    
 
     - name: 'Download current release for App Source Cop'
