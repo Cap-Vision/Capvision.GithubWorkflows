@@ -22,7 +22,7 @@ on:
       addPreprocessorSymbols:
         required: false
         type: string
-        default: 'RELEASE'
+        default: 'RELEASE'-
       removePreprocessorSymbols:
         required: false
         type: string
@@ -155,7 +155,7 @@ jobs:
     - name: 'Enable NuGet Feed access'
       run: |
         if ((Get-PackageProvider -Name NuGet | Get-PackageSource | Where-Object { $_.Name -eq "appsource-stable" }).Count -eq 1) {
-          Write-Host "##[debug]Feed already exists"
+          Write-Host "::debug::Feed already exists"
         } else {
           nuget sources add -name "appsource-stable" -source "${{ env.bcArtifactsFeedSource }}" -username "az" -password ${{ secrets.bcArtifactsNugetPassword }}
         }

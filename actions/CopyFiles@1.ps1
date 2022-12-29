@@ -10,6 +10,6 @@ if (!(Test-Path $targetPath -PathType Container)) {
 
 Get-ChildItem -Path $sourcePath -Recurse -Filter $filter | `
     ForEach-Object {
-        Write-Host "##[debug]Copying $($_.FullName) to $targetPath"
+        Write-Host "::debug::Copying $($_.FullName) to $targetPath"
         Copy-Item -Path $_.FullName -Destination "$targetPath\"
     }

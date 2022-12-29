@@ -12,10 +12,10 @@ $isInstalled = $false
 if ($env:Agent_Name -ne "Hosted Agent") {
     try {
         if (Get-InstalledModule -Name "$moduleName") {
-            Write-Host "##[debug]Updating $moduleName..."
+            Write-Host "::debug::Updating $moduleName..."
             Update-Module "$ModuleName" -Force
         } else {
-            Write-Host "##[debug]Installing $moduleName..."
+            Write-Host "::debug::Installing $moduleName..."
             Install-Module "$ModuleName" -Force
         }
 
@@ -38,7 +38,7 @@ if (-not $isInstalled) {
         $params += " -allowPrerelease"
     }
 
-    Write-Host "##[debug]Installing $moduleName..."
+    Write-Host "::debug::Installing $moduleName..."
     Invoke-Expression "Install-Module $params"
     
 }

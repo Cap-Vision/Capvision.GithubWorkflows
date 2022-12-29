@@ -11,7 +11,7 @@ $appJsonFile = Join-Path $appProjectFolder "app.json"
 $json = Get-Content $appJsonFile | ConvertFrom-Json
 $version = $json.version
 
-Write-Host "##[debug]Application version is $($json.version)"
+Write-Host "::debug::Application version is $($json.version)"
 
 $versions = $version.Split('.')
 
@@ -34,6 +34,6 @@ if (![string]::IsNullOrEmpty($revisionVersion)) {
 
 $json.version = $versions[0] + '.' + $versions[1] + '.' + $versions[2] + '.' + $versions[3]
 
-Write-Host "##[debug]New application version is $($json.version)"
+Write-Host "::debug::New application version is $($json.version)"
 
 $json | ConvertTo-Json >"$appJsonFile"

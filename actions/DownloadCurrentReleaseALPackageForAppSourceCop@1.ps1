@@ -13,12 +13,12 @@ $appNameWithoutSpace = $appName.Replace(' ', '')
 $appPublisherWithoutSpace = $appPublisher.Replace(' ', '')
 $nugetpackagesPath = Join-Path $appProjectFolder ".nugetpackages"
 
-Write-Host "##[debug]AppSourceCop.json path: $appSourceCopPath"
-Write-Host "##[debug].alpackages path: $alpackagesPath"
-Write-Host "##[debug]Nuget packages path: $nugetpackagesPath"
+Write-Host "::debug::AppSourceCop.json path: $appSourceCopPath"
+Write-Host "::debug::.alpackages path: $alpackagesPath"
+Write-Host "::debug::Nuget packages path: $nugetpackagesPath"
 
 if (!(Test-Path $appSourceCopPath -PathType Leaf)) {
-  Write-Host "##vso[task.logissue type=warning]AppSourceCop.json not found."
+  Write-Host "::warning::AppSourceCop.json not found."
   Exit
 }
 
@@ -34,13 +34,13 @@ if (!(Test-Path $alpackagesPath -PathType Container)) {
 $Info = . $nugetExePath list "$appPublisherWithoutSpace.$appNameWithoutSpace" -source $nugetpackagesPath -verbosity detailed
 
 if (!$Info) {
-  Write-Host "##vso[task.logissue type=warning]Unable to get information about the released application version."
+  Write-Host "::warning::Unable to get information about the released application version."
   Exit
 }
 
 $releasedAppVersion = $Info[2].substring(1)
 
-Write-Host "##[debug]Released application version is $releasedAppVersion"
+Write-Host "::debug::Released application version is $releasedAppVersion"
 
 $releasedAppFile = Get-ChildItem -Path (Join-Path $nugetpackagesPath "$appPublisherWithoutSpace.$appNameWithoutSpace.$releasedAppVersion\*.app")
 
