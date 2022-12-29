@@ -22,7 +22,7 @@ on:
       addPreprocessorSymbols:
         required: false
         type: string
-        default: 'RELEASE'-
+        default: 'RELEASE'
       removePreprocessorSymbols:
         required: false
         type: string
