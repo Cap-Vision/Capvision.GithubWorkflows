@@ -15,6 +15,10 @@ on:
         required: false
         type: string
         default: 'App'
+      publishArtifact:
+        required: false
+        type: boolean
+        default: true
       addPreprocessorSymbols:
         required: false
         type: string
@@ -208,7 +212,7 @@ jobs:
       run: |
         ${{ github.workspace }}\Capvision.GithubWorkflows\Powershell\InstallBcSipProvider@1.ps1 `
           -platformArtifact "$(al.platformartifactsfolder)"
-      if: ${{ inputs.publishArtifactName != '' && secrets.pfxFile != '' }}
+      if: ${{ inputs.publishArtifact && inputs.publishArtifactName != '' && secrets.pfxFile != '' }}
 
     - name: 'Sign application'
       run: |
@@ -216,14 +220,14 @@ jobs:
           -appFile "${{ env.MY_APPFILE }}" `
           -pfxFile: "${{ secrets.pfxFile }}" `
           -pfxPassword: "${{ secrets.pfxPassword }}"
-      if: ${{ inputs.publishArtifactName != '' && secrets.pfxFile != '' }}    
+      if: ${{ inputs.publishArtifact && inputs.publishArtifactName != '' && secrets.pfxFile != '' }}    
 
     - name: 'Publish App artifact'
       uses: actions/upload-artifact@v3
       with: 
         name: '${{ inputs.appProjectFolder }} ${{ inputs.publishArtifactName }}'
         path: ${{ env.MY_APPFILE }}
-      if: ${{ inputs.publishArtifactName != '' }}
+      if: ${{ inputs.publishArtifact && inputs.publishArtifactName != '' }}
 
     - name: 'Create archive with dependencies'
       run: |
@@ -231,11 +235,11 @@ jobs:
           -publisherName "$(my.apppublisher)" `
           -appName "$(my.appname)" `
           -projectFolder "${{ github.workspace }}\${{ inputs.appProjectFolder }}"
-      if: ${{ inputs.publishArtifactName != '' }}
+      if: ${{ inputs.publishArtifact && inputs.publishArtifactName != '' }}
 
     - name: 'Publish App dependency artifact'
       uses: actions/upload-artifact@v3
       with: 
         name: '${{ inputs.appProjectFolder }} ${{ inputs.publishArtifactName }} Dependencies'
         path: '${{ github.workspace }}\${{ inputs.appProjectFolder }}\.alpackages\dependencies.zip'
-      if: ${{ inputs.publishArtifactName != '' }}
+      if: ${{ inputs.publishArtifact && inputs.publishArtifactName != '' }}
