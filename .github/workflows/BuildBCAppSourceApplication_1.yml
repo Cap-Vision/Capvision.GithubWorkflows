@@ -29,11 +29,12 @@ on:
         default: 'DEBUG'
       appArtifactSource:
         required: false
-        type: choice
-        options:
-        - default
-        - appsource-rc
-        - appsource-stable
+        type: string
+        default: 'default'
+        # options:
+        # - default
+        # - appsource-rc
+        # - appsource-stable
       artifactCachePath:
         required: false
         type: string
@@ -46,6 +47,10 @@ on:
       sasToken:
         required: true
       bcArtifactsNugetPassword:
+        required: true
+      bcArtifactsStableSource:
+        required: true
+      bcArtifactsRcSource:
         required: true
 
 jobs:
@@ -126,19 +131,19 @@ jobs:
         $artifact = "${{ inputs.artifact }}"
 
         If ("appsource-stable" -eq $appArtifactSource) {
-          $feedSource = "$(bcArtifactsStableSource)"
+          $feedSource = "${{ secrets.bcArtifactsStableSource }}"
           Write-Host "Stable feed is selected"
         }
         ElseIf ("appsource-rc" -eq $appArtifactSource) {
-          $feedSource = "$(bcArtifactsRcSource)"
+          $feedSource = "${{ secrets.bcArtifactsRcSource }}"
           Write-Host "Release-candidate feed is selected"
         }
         ElseIf (!$artifact.Contains("bcartifacts")) {
-          $feedSource = "$(bcArtifactsRcSource)"
+          $feedSource = "${{ secrets.bcArtifactsRcSource }}"
           Write-Host "Release-candidate feed is selected"
         }
         Else {
-          $feedSource = "$(bcArtifactsStableSource)"
+          $feedSource = "${{ secrets.bcArtifactsStableSource }}"
           Write-Host "Stable feed is selected by default"
         }
         Write-Host "Feed URL: $($feedSource.SubString(7))"
